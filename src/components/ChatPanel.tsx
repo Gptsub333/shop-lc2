@@ -1687,14 +1687,19 @@ const ChatPanel = ({ isOpen, onClose }: ChatPanelProps) => {
       socket.onopen = () => {
         console.log("📸 Image socket connected!");
 
-        const messageData: any = {
+       
+        
+         if (sessionId) {
+    socket.send(JSON.stringify({
+      type: "attach_session",
+      session_id: sessionId
+    }));
+    console.log("📤 Sent attach_session for image with ID:", sessionId);
+  }
+   const messageData: any = {
           image: base64Data
         };
-        
-        if (sessionId) {
-          messageData.session_id = sessionId;
-          console.log("📸 Sending image with session_id:", sessionId);
-        }
+  
 
         socket.send(JSON.stringify(messageData));
       };
